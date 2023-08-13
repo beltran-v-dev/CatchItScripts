@@ -7,3 +7,8 @@ bring it to your base 3 times. If you want to prevent your opponent from picking
 item, you can shoot them and try to kill them.
 
 In this repository  you'll find the scripts used to make the game 
+
+My Tasks: This project was done by 3 people; I was the project manager and one of the
+programmers. As a project manager, I managed Trello, sprints, milestones, and the
+communication between team members. As a programmer, my main task was to
+implement the logic of making the video game online.

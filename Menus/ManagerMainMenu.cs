@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /**
- * Classe per controlar les accions realitzades al menú principals.
+Class to control the actions performed in the main menu.
  */
 public class ManagerMainMenu : MonoBehaviour
 {

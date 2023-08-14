@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-//Classe per carregar l'escena del mode offline.
+// Class to load the scene for offline mode.
 public class offline : MonoBehaviour
 {
     public void gameOffline()

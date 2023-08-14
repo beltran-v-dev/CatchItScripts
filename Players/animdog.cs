@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class animdog : MonoBehaviourPun, IPunObservable
 {
-    //inicialització de variables.
+    //Variables delcaration(
 
     public PhotonView pv;
 
@@ -123,7 +123,7 @@ public class animdog : MonoBehaviourPun, IPunObservable
 
     private void Start()
     {
-        //Si PhtonView és true assignem les variables al jugador
+        // If PhotonView is true, we assign the variables to the player.
 
         if (pv.IsMine)
         {
@@ -148,7 +148,7 @@ public class animdog : MonoBehaviourPun, IPunObservable
         }
         else
         {
-            //En cas contrari...
+            //Otherwise
 
             nameCat.text = pv.Owner.NickName;
         }
@@ -157,7 +157,7 @@ public class animdog : MonoBehaviourPun, IPunObservable
     private void Update()
 
     {
-        //Amb el mètode InputsPlayer realitzem totes les accions que el player ha de fer, disparar, caminar...
+        //With the InputsPlayer method, we perform all the actions that the player needs to do, such as shooting, walking...
 
         if (pv.IsMine)
         {
@@ -165,14 +165,14 @@ public class animdog : MonoBehaviourPun, IPunObservable
         }
         else
         {
-            //Amb el mètode SmoothMov, fem que el moviment del personatge no sigui brusc per a la resta jugadors que estiguin en linea.
+            //With the SmoothMov method, we ensure that the character's movement is not abrupt for the other players who are online.
 
             SmoothMov();
         }
     }
 
     /**
-     * Mètode per a fer que el moviment del jugador i la càmera sigui suau.
+     * Method to make the movement of the player and the camera smooth.
      */
 
     private void SmoothMov()
@@ -190,17 +190,17 @@ public class animdog : MonoBehaviourPun, IPunObservable
     }
 
     /**
-    * mètode en el que realitzem totes les accions que el player ha de fer, disparar, caminar...
+    * Method in which we perform all the actions that the player needs to do, such as shooting, walking...
     */
 
     private void InputsPlayer()
     {
-        // Moment del mouse
+        // Mouse movement
 
         h = horizontalSpeed * Input.GetAxis("Mouse X");
         v = verticalSpeed * Input.GetAxis("Mouse Y");
 
-        //Comprovem si hi som a la DeathZone.
+        //We check if we are in the DeathZone.
 
         if (isDeathZone == true)
         {
@@ -212,15 +212,15 @@ public class animdog : MonoBehaviourPun, IPunObservable
             }
         }
 
-        //Enviem a la xarxa el mètode showLife
+        //We send the showLife method to the network.
 
         photonView.RPC("showLife", RpcTarget.All);
 
-        //Executem mètode DamageWeapon
+        //We execute the DamageWeapon method.
 
         DamageWeapon();
 
-        //Si premem la tecla "esc" sortim de la partida desconnectant-nos del servidor i tornar a la pantalla inicial.
+        //If we press the "esc" key, we exit the game by disconnecting from the server and returning to the main screen.
 
         if (Input.GetKey(KeyCode.Escape))
         {
@@ -231,19 +231,20 @@ public class animdog : MonoBehaviourPun, IPunObservable
             SceneManager.LoadScene("MainMenu");
         }
 
-        //Si tornem a la posició inicial, tornem a tenir el 100% de la vida
+        //If we return to the initial position, we regain 100% of our health.
 
         if (transform.position == posInitial)
         {
             vides = 125f;
         }
 
-        //Si el personatge gos a mort, carreguem el mètode showItemsAfterDeath per a tornar a carregar
-        //els items corresponents a la partida.
+     
+        // If the dog character is dead, we load the showItemsAfterDeath method to reload
+        // the items corresponding to the game.
 
-        //tornem a la posició inicial
+        //We return to the initial position.
 
-        //Recuperem la vida un cop estem a la posició inicial
+        //We recover the health once we are in the initial position.
 
         if (dogMort == true)
         {
@@ -256,8 +257,8 @@ public class animdog : MonoBehaviourPun, IPunObservable
             photonView.RPC("showItemsAfterDeath", RpcTarget.All);
         }
 
-        //Si tenim 3 punts, en pressionar la tecla "esc" s'atura el vídeo de la victòria i tornem
-        //al menú principal, desconnecta-nos del servidor.
+    // If we have 3 points, when we press the "esc" key, the victory video stops, and we return
+    // to the main menu, disconnecting from the server.
 
         if (pointNumber == 3)
         {
@@ -274,7 +275,8 @@ public class animdog : MonoBehaviourPun, IPunObservable
             }
         }
 
-        //Controlem el moviment de la càmera.
+ 
+    // We manage the movement of the camera.
 
         transform.Rotate(0, h, 0);
 
@@ -284,14 +286,14 @@ public class animdog : MonoBehaviourPun, IPunObservable
 
         animacio.SetFloat("horizontal", Input.GetAxis("Horizontal"));
 
-        //Controlem el moviment del jugador.
+        // We manage the movement of the player.
 
         float xAxis = Input.GetAxis("Horizontal");
         float zAxis = Input.GetAxis("Vertical");
 
         transform.Translate(xAxis * speed * Time.deltaTime, 0, zAxis * speed * Time.deltaTime);
 
-        //Controlem si el jugador s'està movent i parem el so i l'animació quan està quiet.
+       // We manage if the player is moving and stop the sound and animation when they are still.
 
         if (zAxis != 0 || xAxis != 0)
         {
@@ -308,7 +310,7 @@ public class animdog : MonoBehaviourPun, IPunObservable
             runWood.Stop();
         }
 
-        //Depenent de la superfície que estigui tocant reproduirem un audio o un altre.
+     // Depending on the surface the character is on, we will play one audio or another.
 
         if (touchingGrass)
         {
@@ -337,12 +339,12 @@ public class animdog : MonoBehaviourPun, IPunObservable
     }
 
     /**
-     *  OnCollisionEnter per a controlar les diferents col·lisions
+     *  OnCollisionEnter to control the different collisions.
      */
 
     public void OnCollisionEnter(Collision collision)
     {
-        //Comprovem a nivell online si estem tocant el terra
+        //we check if the character is touching the ground when is playing online 
 
         if (photonView.IsMine)
         {
@@ -351,7 +353,7 @@ public class animdog : MonoBehaviourPun, IPunObservable
                 isGrounded = true;
             }
 
-            //Si col·lidim contra l'aigua, tornem a la nostra posició inicial i executem el mètode showItemsAfterDeath.
+            //If we collide with water, we return to our initial position and execute the showItemsAfterDeath method.
 
             if (collision.gameObject.tag == "Water")
             {
@@ -363,7 +365,7 @@ public class animdog : MonoBehaviourPun, IPunObservable
             }
         }
 
-        //Apliquem un dany sobre el player2
+        //We apply damage to player2.
 
         if (collision.gameObject.tag == "Player2")
         {
@@ -373,8 +375,7 @@ public class animdog : MonoBehaviourPun, IPunObservable
             }
         }
 
-        // Si detectem l'objecte "raspaPeix", llavors desactivem l'objecte 3d i activem la imatge del gat per a
-        //indicar que ha agafat la raspa de peix.
+      // If we detect the "raspaPeix," then we deactivate the 3D object and activate the cat image to indicate that it has picked up the fish bone.
 
         if (collision.gameObject.name == "raspaPeix")
         {
@@ -389,12 +390,12 @@ public class animdog : MonoBehaviourPun, IPunObservable
     }
 
     /**
-     * OnTriggerEnter per detectar les col·lisions de tipus trigger
+     * OnTriggerEnter to detect trigger-type collisions
      */
 
     public void OnTriggerEnter(Collider other)
     {
-        //Si entrem a dintre de l'altar del gos i tenim l'objecte de la raspa de peix fem un punt.
+  // If we enter inside the dog's altar and have the fish bone object, we score a point
 
         if (other.gameObject.name == "altarDog")
         {
@@ -414,17 +415,17 @@ public class animdog : MonoBehaviourPun, IPunObservable
                 winSound.Play();
             }
 
-            //Actiem l'objecte i la imatge corresponent.
+            //We activate the corresponding object and image.
 
             imgGat.SetActive(false);
             refRaspaPeixGat.SetActive(true);
 
-            //Mostrem els punts
+            //We display the points scored.
 
             points.text = pointNumber.ToString();
         }
 
-        //Detectem quan entrem a la zona NO DeathZone
+        //We detect when we enter the NO DeathZone area.
 
         if (other.gameObject.tag == "Zona")
         {
@@ -434,12 +435,12 @@ public class animdog : MonoBehaviourPun, IPunObservable
 
     /**
      *
-     * OnTriggerExit per detectar les col·lisions de tipus trigger
+         OnTriggerExit to detect trigger-type collisions when exiting.
      */
 
     public void OnTriggerExit(Collider other)
     {
-        //Detectem quan entrem a la zona DeathZone
+        // We detect when we enter the DeathZone area.
 
         if (other.gameObject.tag == "Zona")
         {
@@ -452,12 +453,13 @@ public class animdog : MonoBehaviourPun, IPunObservable
 
     /**
    *
-   * OnCollisionExit per detectar les col·lisions de tipus collision
+   * OnCollisionExit to detect collision-type interactions when exiting.
    */
 
     public void OnCollisionExit(Collision collExist)
     {
-        // Si és true isGrounded false.
+       
+        //If it is true, isGrounded becomes false.
 
         if (photonView.IsMine)
         {
@@ -470,13 +472,13 @@ public class animdog : MonoBehaviourPun, IPunObservable
 
     /**
     *
-    * Mètode OnCollisionStay per a detectar collision.
+    * Method OnCollisionStay to detect collisions.
     *
     */
 
     public void OnCollisionStay(Collision collision)
     {
-        //Comprovacions per a detectar quan és reproduíeu un so o altre.
+        //Checks to detect when one sound or another is being played.
 
         if (collision.gameObject.tag == "floor" && moviment)
         {
@@ -492,7 +494,7 @@ public class animdog : MonoBehaviourPun, IPunObservable
 
     /**
      *
-     * Mètode OnPhotonSerializeView, aquest mètode ens serveix per enviar i rebre informació de tots els players de la sala.
+     * Method OnPhotonSerializeView, this method is used to send and receive information from all players in the room.
      */
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -513,13 +515,14 @@ public class animdog : MonoBehaviourPun, IPunObservable
         }
     }
 
-    //Tots els mètodes que hi han a continuació de forma directa o indirecta estan utilitzant la funció PunRPC,
-    //aquesta funció és l'encarregada d'indicar que aquests mètodes seran utilitzats a través de la xarxa.
+    // All the methods that follow, either directly or indirectly, are using the PunRPC function,
+    // this function is responsible for indicating that these methods will be used over the network.
 
     /**
      *
-     * Mètode per al dispar, on controles si el jugador a clickat el botó, si ha detectat l'altre jugador, surt un Line render des de
-     * x posició fins a Y posició amb una certa força i distancia.
+        Method for shooting, where you control if the player has clicked the button, if it has detected the other player, a Line render comes out from
+        x position to Y position with a certain force and distance.
+*/
      */
     [PunRPC]
     public void DamageWeapon()
@@ -558,7 +561,7 @@ public class animdog : MonoBehaviourPun, IPunObservable
     }
 
     /**
-     * Mètode per executar el LineRender amb un delay.
+     * Method to execute the LineRender with a delay.
      *
      */
 
@@ -572,7 +575,7 @@ public class animdog : MonoBehaviourPun, IPunObservable
     }
 
     /**
-    * Mètode per a la gestió del sistema de vida.
+    * Method for managing the health system.
     *
     */
 
@@ -588,7 +591,7 @@ public class animdog : MonoBehaviourPun, IPunObservable
     }
 
     /**
-    * Mètode per a la gestió del dany.
+    * Method for managing damage.
     */
 
     [PunRPC]
@@ -605,7 +608,7 @@ public class animdog : MonoBehaviourPun, IPunObservable
     }
 
     /**
-    *Mètode que utilitzem al llarg de tot el script, per a que tant l'objecte "refOsGos" com "imgOs" tornen al seu estat inicial.
+    *Method used throughout the script to reset both the "refOsGos" object and "imgOs" image to their initial state.
     */
 
     [PunRPC]

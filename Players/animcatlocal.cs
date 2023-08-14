@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class animcatlocal : MonoBehaviour
 {
-    // Declaració de les variables necessàries.
+    //Variables declaration
     public Animator animacio;
 
     private Rigidbody rb;
@@ -80,7 +80,7 @@ public class animcatlocal : MonoBehaviour
     public GameObject videoCatLose;
 
     /**
-     * Busquem els components corresponents abans de l'execució en bucle de l'Update i associem els temps dels audios a les variables.
+     * We search for the corresponding components before the Update loop execution and associate the audio times with the variables.
      */
     private void Start()
     {
@@ -96,23 +96,24 @@ public class animcatlocal : MonoBehaviour
 
     private void Update()
     {
-        //Obtenim el valor de la variable de l'script de la raspa, assignem l'objecte raspa i actualitzem la UI.
+        //We get the value of the variable from the "raspa" script, assign the "raspa" object, and update the UI.
         gosTocat = raspapeix.GetComponent<copRaspa>().tocat;
         raspapeix = GameObject.FindGameObjectWithTag("cat");
         barLife.GetComponent<Image>().fillAmount = vides / 100f;
 
-        //Controlem el moviment de la càmera.
+        //We manage the movement of the camera.
         h = horizontalSpeed * Input.GetAxis("Mouse X");
         v = verticalSpeed * Input.GetAxis("Mouse Y");
         transform.Rotate(0, h, 0);
         cam.transform.Rotate(-v, 0, 0);
 
-        //Controlem el moviment del jugador.
+        //We manage the movement of the player.
         float xAxis = Input.GetAxis("Horizontal");
         float zAxis = Input.GetAxis("Vertical");
         transform.Translate(xAxis * speedPlayer * Time.deltaTime, 0, zAxis * speedPlayer * Time.deltaTime);
 
-        //Controlem si el jugador s'està movent i parem el so i l'animació quan està quiet.
+        //We manage if the player is moving and stop the sound and animation when they are still.
+
         if (zAxis != 0 || xAxis != 0)
         {
             animacio.SetBool("vertical_b", true);
@@ -127,7 +128,7 @@ public class animcatlocal : MonoBehaviour
             moviment = false;
         }
 
-        //Depenent de la superfície que estigui tocant reproduirem un audio o un altre.
+        //Depending on the surface being touched, we will play one audio or another.
         if (touchingGrass)
         {
             runWood.Stop();
@@ -151,7 +152,8 @@ public class animcatlocal : MonoBehaviour
             }
         }
 
-        //Realitzem el control de les animacions i del so de la mecànica de colpejar.
+        //We manage the animations and sound of the hitting mechanic.
+
         try
         {
             if (Input.GetKeyDown(KeyCode.G) && raspapeix.activeSelf)
@@ -180,8 +182,8 @@ public class animcatlocal : MonoBehaviour
             Debug.Log("No té la arma per golpejar");
         }
 
-        //Control de si el jugador ha perdut la partida arribant a 0 vides, o de si l'ha guanyat al arribar als 3 punts,
-        //reproduint els sons i videos corresponents, i permetem el retorn al menú principal.
+    // Management of whether the player has lost the game by reaching 0 lives, or if they have won by reaching 3 points,
+    // playing the corresponding sounds and videos, and allowing the players to return to the main menu.
         if (vides <= 0f)
         {
             if (!reproduitLose)
@@ -230,7 +232,7 @@ public class animcatlocal : MonoBehaviour
             }
         }
 
-        //Control perquè el jugador no abusi del sistema de colpejar i no es pugui realitzar mal tant seguidament.
+        //Management to prevent the player from abusing the hitting system to cause damage too frequently.
         if (possibleImpacte == false)
         {
             contador += Time.deltaTime * 1;            
@@ -241,7 +243,7 @@ public class animcatlocal : MonoBehaviour
             }
         }
 
-        //Obtenim les vides de la IA i si és 0 el tornem a respawnejar.
+        //We manage the AI's lives, and if they reach 0, we respawn them.
         videsDog = dog.GetComponent<animdoglocal>().getVides();
         if (videsDog == 0)
         {
@@ -256,7 +258,7 @@ public class animcatlocal : MonoBehaviour
             }            
         }
 
-        //Si el jugador se li permet realitzar l'impacte, ha pitjat el botó d'atac ("G") i l'impacte s'ha realitzat li restem vida a la IA i es fa l'animació.
+        //If the player is allowed to perform the attakc and has pressed the attack button('G') and the attack as been executen, then we crecrease the AI's health and perform the animation 
         if (gosTocat && possibleImpacte && animGat)
         {
             dog.GetComponent<animdoglocal>().setVides(1);
@@ -268,7 +270,7 @@ public class animcatlocal : MonoBehaviour
             animacio.SetBool("impacte", false);
         }
 
-        //Input per retornar al menú principal.
+        // Input to return to the main menu.
         if (Input.GetKey(KeyCode.Escape))
         {
             managerAudio.Instancia.gameObject.GetComponent<AudioSource>().Play();
@@ -276,8 +278,8 @@ public class animcatlocal : MonoBehaviour
         }
     }
 
-    //Mètode que comprova si el gat ha entrat en col·lissió amb diversos elements del joc, 
-    //com l'objecte del gos, l'altar de la seva base i l'aigua i els aplica les accions a dur a terme corresponents.
+// Method that checks if the cat has collided with various elements of the game,
+// such as the dog's object, its base's altar, and water, and applies the corresponding actions to be carried out.
     public void OnCollisionEnter(Collision collision)
     {
     
@@ -310,7 +312,9 @@ public class animcatlocal : MonoBehaviour
         }
     }
 
-    //Mètode que ens comprova si el gat està tocant la gespa o el pont.
+    // Method that checks if the cat is touching the grass or the bridge.
+
+
     public void OnCollisionStay(Collision collision) 
     {
         if (collision.gameObject.tag == "floor" && moviment)
@@ -326,31 +330,32 @@ public class animcatlocal : MonoBehaviour
 
     }
 
-    //Getter per obtenir les vides del gat.
+    //Getterto get gat lives
     public float getVides()
     {
         return vides;
     }
 
-    //Setter per assignar les vides al gat.
+    //Setter to set gat lives
     public void setVides(float i)
     {
         vides -= i * 20;        
     }
 
-    //Mètode per comprovar si el gat té l'objecte agafat o no.
+// Method to check if the cat has picked up the object or not.
     public bool getTeObjecte()
     {
         return tincOs;
     }
 
-    //Mètode per assignar les vides al gat.
-    public void respawn()
+// Method to assign lives to the cat.
+public void respawn()
     {
         vides = 100;
     }
 
-    //Mètode per reproduir el so d'impacte.
+// Method to play the impact sound.
+
     public void playImpacte()
     {
         damageLifeSound.Play();

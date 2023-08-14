@@ -1,4 +1,4 @@
-﻿using System.Collections;
+    ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class animcat : MonoBehaviourPun, IPunObservable
 {
-    //inicialització de variables.
+    //Initialization of variables.
 
     public PhotonView pv;
 
@@ -119,7 +119,7 @@ public class animcat : MonoBehaviourPun, IPunObservable
 
     private void Start()
     {
-        //Si PhtonView és true assignem les variables al jugador
+        //If PhotonView is true, we assign the variables to the player.
 
         if (pv.IsMine)
         {
@@ -141,8 +141,7 @@ public class animcat : MonoBehaviourPun, IPunObservable
         }
         else
         {
-            //En cas contrari...
-
+         // Otherwise...
             nameCat.text = pv.Owner.NickName;
         }
     }
@@ -150,22 +149,21 @@ public class animcat : MonoBehaviourPun, IPunObservable
     private void Update()
 
     {
-        //Amb el mètode InputsPlayer realitzem totes les accions que el player ha de fer, disparar, caminar...
-
+        // With the InputsPlayer method, we perform all the actions that the player needs to do, such as shooting, walking...
         if (pv.IsMine)
         {
             InputsPlayer();
         }
         else
         {
-            //Amb el mètode SmoothMov, fem que el moviment del personatge no sigui brusc per a la resta jugadors que estiguin en linea.
+           // With the SmoothMov method, we ensure that the character's movement is not abrupt for the other players who are online.
 
             SmoothMov();
         }
     }
 
     /**
-     * Mètode per a fer que el moviment del jugador i la càmera sigui suau.
+     * Method to make the player's and camera's movement smooth.
      */
 
     private void SmoothMov()
@@ -183,23 +181,23 @@ public class animcat : MonoBehaviourPun, IPunObservable
     }
 
     /**
-    * mètode en el que realitzem totes les accions que el player ha de fer, disparar, caminar...
+    * Method in which we perform all the actions that the player needs to do, such as shooting, walking...
     */
 
     private void InputsPlayer()
     {
         reproduit = false;
 
-        // Moment del mouse
+        // Mouse movement
 
         h = horizontalSpeed * Input.GetAxis("Mouse X");
         v = verticalSpeed * Input.GetAxis("Mouse Y");
 
-        //Enviem a la xarxa el mètode showLife
+        //We send the showLife method to the network.
 
         photonView.RPC("showLife", RpcTarget.All);
 
-        //Comprovem si hi som a la DeathZone.
+        //We check if we are in the DeathZone.
 
         if (isDeathZone == true)
         {
@@ -211,7 +209,7 @@ public class animcat : MonoBehaviourPun, IPunObservable
             }
         }
 
-        //Si premem la tecla "esc" sortim de la partida desconnectant-nos del servidor i tornar a la pantalla inicial.
+        //If we press the "esc" key, we exit the game by disconnecting from the server and returning to the main screen.
 
         if (Input.GetKey(KeyCode.Escape))
         {
@@ -222,19 +220,20 @@ public class animcat : MonoBehaviourPun, IPunObservable
             SceneManager.LoadScene("MainMenu");
         }
 
-        //Si tornem a la posició inicial, tornem a tenir el 100% de la vida
+        //If we return to the initial position, we regain 100% of our health.
 
         if (transform.position == posInitial)
         {
             vides = 125f;
         }
 
-        //Si el personatge gat a mort, carreguem el mètode showItemsAfterDeath per a tornar a carregar
-        //els items corresponents a la partida.
+    // If the cat character is dead, we load the showItemsAfterDeath method to reload
+    // the items corresponding to the game.
 
-        //tornem a la posició inicial
+        
+        // We return to the initial position.
 
-        //Recuperem la vida un cop estem a la posició inicial
+        //We recover the health once we are in the initial position.
 
         if (catMort == true)
         {
@@ -247,12 +246,12 @@ public class animcat : MonoBehaviourPun, IPunObservable
             photonView.RPC("showItemsAfterDeath", RpcTarget.All);
         }
 
-        //Executem el mètode DamageWeapon
+        //We execute the DamageWeapon method.
 
         DamageWeapon();
 
-        //Si tenim 3 punts, en pressionar la tecla "esc" s'atura el vídeo de la victòria i tornem
-        //al menú principal, desconnecta-nos del servidor.
+    // If we have 3 points, when we press the "esc" key, the victory video stops and we return
+    // to the main menu, disconnecting from the server.
 
         if (pointNumber == 3)
         {
@@ -269,7 +268,7 @@ public class animcat : MonoBehaviourPun, IPunObservable
             }
         }
 
-        //Controlem el moviment de la càmera.
+        //We control the movement of the camera.
 
         transform.Rotate(0, h, 0);
 
@@ -279,14 +278,14 @@ public class animcat : MonoBehaviourPun, IPunObservable
 
         animacio.SetFloat("horizontal", Input.GetAxis("Horizontal"));
 
-        //Controlem el moviment del jugador.
+        //We control the movement of the player.
 
         float xAxis = Input.GetAxis("Horizontal");
         float zAxis = Input.GetAxis("Vertical");
 
         transform.Translate(xAxis * speed * Time.deltaTime, 0, zAxis * speed * Time.deltaTime);
 
-        //Controlem si el jugador s'està movent i parem el so i l'animació quan està quiet.
+        //We control if the player is moving and stop the sound and animation when they are still.
 
         if (zAxis != 0 || xAxis != 0)
         {
@@ -303,7 +302,7 @@ public class animcat : MonoBehaviourPun, IPunObservable
             runWood.Stop();
         }
 
-        //Depenent de la superfície que estigui tocant reproduirem un audio o un altre.
+        //Depending on the surface being touched, we play a specific audio.
 
         if (touchingGrass)
         {
@@ -332,12 +331,13 @@ public class animcat : MonoBehaviourPun, IPunObservable
     }
 
     /**
-     *  OnCollisionEnter per a controlar les diferents col·lisions
-     */
+
+    OnCollisionEnter to control the different collisions.
+    */
 
     public void OnCollisionEnter(Collision collision)
     {
-        //Comprovem a nivell online si estem tocant el terra
+        //We check online if we are touching the ground.
 
         if (photonView.IsMine)
         {
@@ -347,7 +347,7 @@ public class animcat : MonoBehaviourPun, IPunObservable
             }
         }
 
-        // Si detectem l'objecte "osGos", llavors desactivem l'objecte 3d i activem la imatge del gat per a indicar que ha agafat l'os.
+        // If we detect the "osGos," then we deactivate the 3D object and activate the cat image to indicate that it has picked up the bone.
 
         if (collision.gameObject.name == "osGos")
         {
@@ -360,7 +360,7 @@ public class animcat : MonoBehaviourPun, IPunObservable
             objecteAgafat.Play();
         }
 
-        //Si col·lidim contra l'aigua, tornem a la nostra posició inicial i executem el mètode showItemsAfterDeath.
+        //If we collide with the water, we return to our initial position and execute the showItemsAfterDeath method.
 
         if (collision.gameObject.tag == "Water")
         {
@@ -373,12 +373,12 @@ public class animcat : MonoBehaviourPun, IPunObservable
     }
 
     /**
-     * OnTriggerEnter per detectar les col·lisions de tipus trigger
+     * OnTriggerEnter to detect trigger-type collisions.
      */
 
     public void OnTriggerEnter(Collider other)
     {
-        //Si entrem a dintre de l'altar del gat i tenim l'objecte de l'os fem un punt.
+        //If we enter inside the cat's altar and have the bone object, we score a point.
 
         if (other.gameObject.name == "altarCat")
         {
@@ -387,7 +387,7 @@ public class animcat : MonoBehaviourPun, IPunObservable
                 pointNumber++;
             }
 
-            //Tornem a ficar l'objecte i la imatge al seu estat original i reproduïm el so corresponent.
+            //We restore the object and the image to their original state and play the corresponding sound again.
 
             imgOs.SetActive(false);
 
@@ -395,11 +395,11 @@ public class animcat : MonoBehaviourPun, IPunObservable
 
             puntAconseguit.Play();
 
-            //Mostrem els punts actuals.
+            //We display the current points.
 
             points.text = pointNumber.ToString();
 
-            //Si tenim tres punts, es reprodueix el vídeo corresponent.
+            //If we have three points, the following video is played.
 
             if (pointNumber == 3)
             {
@@ -411,7 +411,7 @@ public class animcat : MonoBehaviourPun, IPunObservable
             }
         }
 
-        //Detectem quan entrem a la zona NO DeathZone
+        //We detect when whe enter to the no-death-zone area
 
         if (other.gameObject.tag == "Zona")
         {
@@ -421,12 +421,12 @@ public class animcat : MonoBehaviourPun, IPunObservable
 
     /**
      *
-     * OnTriggerExit per detectar les col·lisions de tipus trigger
+     * OnTriggerExit to detect trigger-type collisions when exiting.
      */
 
     public void OnTriggerExit(Collider other)
     {
-        //  //Detectem quan entrem a la zona DeathZone
+         //We detect when we enter the DeathZone area.
 
         if (other.gameObject.tag == "Zona")
         {
@@ -436,12 +436,12 @@ public class animcat : MonoBehaviourPun, IPunObservable
 
     /**
      *
-     * OnCollisionExit per detectar les col·lisions de tipus collision
+     * OnCollisionExit to detect collision-type interactions when exiting.
      */
 
     public void OnCollisionExit(Collision collExist)
     {
-        // Si és true isGrounded false.
+        // If it is true, isGrounded becomes false.
 
         if (photonView.IsMine)
         {
@@ -454,7 +454,7 @@ public class animcat : MonoBehaviourPun, IPunObservable
 
     /**
      *
-     * Mètode OnPhotonSerializeView, aquest mètode ens serveix per enviar i rebre informació de tots els players de la sala.
+     * Method OnPhotonSerializeView, this method is used to send and receive information from all players in the room.
      */
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -477,13 +477,13 @@ public class animcat : MonoBehaviourPun, IPunObservable
 
     /**
      *
-     * Mètode OnCollisionStay per a detectar collision.
+     * Method OnCollisionStay to detect collisions.
      *
      */
 
     public void OnCollisionStay(Collision collision)
     {
-        //Comprovacions per a detectar quan és reproduíeu un so o altre.
+        //Checks to detect when one sound or another is being played.
 
         if (collision.gameObject.tag == "floor" && moviment)
         {
@@ -497,14 +497,14 @@ public class animcat : MonoBehaviourPun, IPunObservable
         }
     }
 
-    //Tots els mètodes que hi han a continuació de forma directa o indirecta estan utilitzant la funció PunRPC,
-    //aquesta funció és l'encarregada d'indicar que aquests mètodes seran utilitzats a través de la xarxa.
+    // All the methods that follow, either directly or indirectly, are using the PunRPC function,
+    // this function is responsible for indicating that these methods will be used over the network.
 
+ 
     /**
-     *
-     * Mètode per al dispar, on controles si el jugador a clickat el botó, si ha detectat l'altre jugador, surt un Line render des de
-     * x posició fins a Y posició amb una certa força i distancia.
-     */
+    Method for shooting, where you control if the player has clicked the button, if it has detected the other player, a Line render comes out from
+    x position to Y position with a certain force and distance.
+    */
 
     [PunRPC]
     public void DamageWeapon()
@@ -543,7 +543,7 @@ public class animcat : MonoBehaviourPun, IPunObservable
     }
 
     /**
-     * Mètode per executar el LineRender amb un delay.
+     * Method to execute the LineRender with a delay.
      *
      */
 
@@ -557,7 +557,7 @@ public class animcat : MonoBehaviourPun, IPunObservable
     }
 
     /**
-     * Mètode per a la gestió del sistema de vida.
+     * Method for managing the health system.
      *
      */
 
@@ -573,7 +573,7 @@ public class animcat : MonoBehaviourPun, IPunObservable
     }
 
     /**
-    * Mètode per a la gestió del dany.
+    * Method for managing damage.
     *
     */
 
@@ -592,7 +592,7 @@ public class animcat : MonoBehaviourPun, IPunObservable
 
     /**
     *
-    *Mètode que utilitzem al llarg de tot el script, per a que tant l'objecte "refOsGos" com "imgOs" tornen al seu estat inicial.
+    *Method used throughout the script to reset both the "refOsGos" and "imgOs" to their initial state.
     */
 
     [PunRPC]

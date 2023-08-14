@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//Classe per aturar l'audio dels menús.
+// Class to stop the audio of the menus.
 public class pauseAudio : MonoBehaviour
 {
     private void Start()

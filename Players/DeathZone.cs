@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DeathZone : MonoBehaviour
 {
-    // Declaració de les variables necessàries.
+    // Declaration of the necessary variables.
     public float densitatBoira1;
     public float densitatBoira2;
     public Color colorBoira1;
@@ -15,7 +15,7 @@ public class DeathZone : MonoBehaviour
     private bool zona = false;
     private float contador = 1.0f;
 
-    //Obtenim les vides del gat i els i restem mitjançant el Time.deltaTime perquè sigui de forma continuada.
+    //We get the lives of the cat and subtract them using Time.deltaTime to make it continuous.
     private void Update()
     {
         numVides = player.GetComponent<animcatlocal>().getVides();
@@ -28,7 +28,7 @@ public class DeathZone : MonoBehaviour
         }
     }
 
-    //Control per saber si el jugador ha entrat a la zona de joc.
+    //Check to determine if the player has entered the game area.
     private void OnTriggerEnter(Collider collisionInfo)
     {
         if (collisionInfo.gameObject.tag == "Zona")
@@ -40,7 +40,7 @@ public class DeathZone : MonoBehaviour
         }
     }
 
-    //Control per saber si el jugador ha sortit de la zona de joc i s'aplica tant el renderitzat de la boira per advertir-lo com la reducció de la vida.
+    //Check to determine if the player has exited the game area, applying both the rendering of fog to warn them and the reduction of life.
     private void OnTriggerExit(Collider collisionInfo)
     {
         if (collisionInfo.gameObject.tag == "Zona")

@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /**
- * Classe que ens controlarà que el so no deixi de reproduir-se quan es canviï d'escena als menús.
+ Class that will control the sound to keep playing when switching scenes to the menus.
+
  */
 public class managerAudio : MonoBehaviour
 {

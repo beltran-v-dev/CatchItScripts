@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class animdog : MonoBehaviourPun, IPunObservable
 {
-    //Variables delcaration(
+    //Variables delcaration
 
     public PhotonView pv;
 

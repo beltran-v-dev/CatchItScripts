@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class menuManager : MonoBehaviourPunCallbacks
 {
-    //Inicialització de variables
+    //Variables declaration
 
     [SerializeField]
     private GameObject userNameScreen, ConnectScreen, screenTeam, loadScreen, background;
@@ -23,9 +23,6 @@ public class menuManager : MonoBehaviourPunCallbacks
 
     private bool conect = true;
 
-    /**
-     * Mètode Awake per tal d'executar de forma directa el seu contingut.
-     */
 
     private void Awake()
     {

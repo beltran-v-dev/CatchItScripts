@@ -8,7 +8,7 @@ using TMPro;
 
 public class managerTeams : MonoBehaviourPunCallbacks
 {
-    //Declaració de les variables necessàries.
+    //Variables declaration
     public GameObject imgTeams;
     public GameObject rpDgos;
     public GameObject dogPrefab;
@@ -21,13 +21,14 @@ public class managerTeams : MonoBehaviourPunCallbacks
 
     public TextMeshProUGUI numPlayers;
 
-    //Activem el canvas de la cara del gat i del gos.
+// We activate the canvas of the cat and dog's face.
     private void Awake()
     {
         imgTeams.SetActive(true);
     }
 
-    //Mètode per assignar el personatge del gos si l'imatge és clicada.
+ // Method to assign the dog character if the image is clicked.
+
     public void OnClick_DogTeam()
     {
         imgTeams.SetActive(false);
@@ -41,7 +42,8 @@ public class managerTeams : MonoBehaviourPunCallbacks
         }
     }
 
-    //Mètode per assignar el personatge del gat si l'imatge és clicada.
+// Method to assign the cat character if the image is clicked.
+
     public void OnClick_CatTeam()
     {
         // Time.timeScale = 1;
@@ -56,13 +58,13 @@ public class managerTeams : MonoBehaviourPunCallbacks
         }
     }
 
-    //Instanciem el prefab del gat a l'escena.
+// We instantiate the cat prefab in the scene.
     public void cat()
     {
         PhotonNetwork.Instantiate(gatPrefab.name, rpGat.transform.position, rpGat.transform.rotation);
     }
 
-    //Instanciem el prefab del gos a l'escena.
+   // We instantiate the dog prefab in the scene.
     public void dog()
     {
         PhotonNetwork.Instantiate(dogPrefab.name, rpDgos.transform.position, rpDgos.transform.rotation);

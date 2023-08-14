@@ -26,13 +26,13 @@ public class menuManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        //Desactivem el botó del nom, més endavant controlem aquesta qüestió.
+        //We deactivate the name button, later we will manage this issue
 
         createUserNameButton.GetComponent<Button>().interactable = false;
     }
 
     /**
-     * Mètode sobreescrit per tal de crear una connexió cap al servidor de photon
+     * Overridden method to establish a connection to the Photon server.
      */
 
     public override void OnConnectedToMaster()
@@ -41,7 +41,7 @@ public class menuManager : MonoBehaviourPunCallbacks
     }
 
     /**
-     * Mètode sobreescrit per tal d'unirse a la sala photon
+     * Overridden method to join the Photon room.
      */
 
     public override void OnJoinedLobby()
@@ -51,7 +51,7 @@ public class menuManager : MonoBehaviourPunCallbacks
     }
 
     /***
-     * Mètode en el qual activem la pantalla corresponent, perquè els usuaris puguin inserir els seus noms.
+     * Method in which we activate the corresponding screen so that users can input their names.
      */
 
     public void OnClik_CreateNameBtn()
@@ -63,7 +63,7 @@ public class menuManager : MonoBehaviourPunCallbacks
     }
 
     /**
-     * Mètode en el qual controlem si el jugador pot avançar o no, de tal forma que el nom tingui una mida correcta.
+     * Method in which we control whether the player can proceed or not, ensuring that the name has a correct length.
      */
 
     public void OnNameField_Changed()
@@ -79,7 +79,7 @@ public class menuManager : MonoBehaviourPunCallbacks
     }
 
     /**
-     * Amb el següent mètode, s'indica al projecte d'Unity, que ha de fer servir l'arxiu de configuració que s'ha realitzat prèviament.
+     * With the following method, Unity project is instructed to use the configuration file that was previously created.
      *
      */
 
@@ -92,7 +92,7 @@ public class menuManager : MonoBehaviourPunCallbacks
     }
 
     /**
-     *  Mètode per a unir-se a l'escena corresponent.
+     *  Method to join the corresponding scene.
      */
 
     public override void OnJoinedRoom()
@@ -101,7 +101,7 @@ public class menuManager : MonoBehaviourPunCallbacks
     }
 
     /**
-     *Mètode per a crear una sala al servidor de photon, amb un nom concret i quants jugadors poden accedir com a màxim.
+     *Method to create a room on the Photon server with a specific name and maximum number of players allowed.
      */
 
     public void OnClick_CreateRoom()
@@ -116,7 +116,7 @@ public class menuManager : MonoBehaviourPunCallbacks
     }
 
     /**
-     * Mètode per a unir-se a la sala creada prèviament.
+     * Method to join the previously created room.
      */
 
     public void OnClick_JoinRoom()
@@ -130,7 +130,7 @@ public class menuManager : MonoBehaviourPunCallbacks
     }
 
     /**
-     * Mètode que indica un error si no hi ha una sala creada i intentem unir-se.
+     * Method that displays an error if there is no room created and we try to join.
      */
 
     public override void OnJoinRoomFailed(short returnCode, string message)

@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class copRaspa : MonoBehaviour
 {
-    // Declaració de les variables necessàries.
+    // Variables declaration
     public GameObject raspapeix;
     public bool tocat = false;
 
-    //Mètode per comprovar si l'objecte del gat ha impactat amb la IA.
+   // Method to check if the cat's object has collided with AI
+
     void OnTriggerEnter(Collider collisionInfo)
     {
         if (collisionInfo.gameObject.tag == "PlayerDog")
@@ -18,7 +19,7 @@ public class copRaspa : MonoBehaviour
         }
     }
 
-    //Retornem la variable a false en cas de no estar-lo tocant. 
+// We return the variable to false if it's not being touched.
     private void OnTriggerExit(Collider other)
     {
         tocat = false;

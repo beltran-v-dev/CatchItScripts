@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class animdoglocal : MonoBehaviour
 {
-    // Declaració de les variables necessàries.
+    // Variables declaration
     public Animator animacio;
 
     private Rigidbody rb;
@@ -36,7 +36,7 @@ public class animdoglocal : MonoBehaviour
     private bool animGolpej = false;
 
     /**
-     * Busquem els components corresponents abans de l'execució en bucle de l'Update.
+     * We search for the corresponding components before the Update loop execution.
      */
     private void Start()
     {
@@ -50,25 +50,25 @@ public class animdoglocal : MonoBehaviour
     
     private void Update()
     {
-        //Obtenim el valor de la variable de l'script de l'os i actualitzem la UI.
+        //We retrieve the value of the variable from the copOs script and update the UI..
         gatTocat = osGos.GetComponent<copOs>().tocat;
         barLife.GetComponent<Image>().fillAmount = vides / 100f;
         
-        //Calculem la distància entre la IA i el jugador.
+        //We calculate the distance between the AI and the player.
         distancia = Vector3.Distance(target.position, transform.position);
 
-        //Si es troba a una distància menor a la que li hem assignat es dirigirà cap al jugador, i sino, seguirà la ruta designada.
+     // If it is within a distance less than the one we have assigned, it will move towards the player; otherwise, it will follow the designated route.
         if (distancia <= 10)
         {          
             transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
 
-            //Fem que miri cap al jugador.
+            // We make it look towards the player.
             if (target != null)
             {
                 transform.LookAt(target);
             }
 
-            //Si es troba en aquesta distància es reprodueix l'animació de colpejar.
+       // If it is within this distance, the hitting animation is played.
             if (distancia < 3)
             {
                 animacio.SetBool("golpejar", true);
@@ -80,15 +80,16 @@ public class animdoglocal : MonoBehaviour
                 animGolpej = false;
             }           
         }
-        //Si el jugador agafa l'objecte li augmentem la velocitat.
+        // If the player picks up the object, we increase their speed.
         else if (cat.GetComponent<animcatlocal>().getTeObjecte() == true)
         {
             speed = 10;
         }
-        //Retorn de la ruta establerta.
+     // Return of the established route.
         else
         {
-            // Es tria el punt de destinació següent quan l’agent s’acosti a l’actual.
+      // The next destination point is chosen when the agent approaches the current one.
+
             speed = 8;
             if (agent.remainingDistance < 0.5f)
             {
@@ -98,7 +99,7 @@ public class animdoglocal : MonoBehaviour
             animacio.SetBool("golpejar", false);
         }
 
-        //Control perquè la IA no abusi del sistema de colpejar i no es pugui realitzar mal tant seguidament.
+    // Management to prevent the AI from abusing the hitting system and not being able to cause damage too frequently.
         if (possibleImpacte == false)
         {
             contador += Time.deltaTime * 1;            
@@ -109,7 +110,7 @@ public class animdoglocal : MonoBehaviour
             }
         }
 
-        //Si la IA se li permet realitzar l'impacte, ha realitzat l'atac i l'impacte s'ha realitzat correctament li restem vida al jugador i es fa l'animació.
+        // If the AI is allowed to perform the attack, has executed the attack, and the impact has been successful, we decrease the player's health and perform the animation.
         if (gatTocat && possibleImpacte && animGolpej)
         {
             cat.GetComponent<animcatlocal>().playImpacte();
@@ -123,10 +124,10 @@ public class animdoglocal : MonoBehaviour
         }
     }
 
-    //Mètode que recorre l'array dels objectes que marquen el recorregut de la IA.
+    // Method that iterates through the array of objects marking the path of the AI.
     private void GotoNextPoint()
     {
-        // Retorna si no s’ha configurat cap punt.
+        // Returns if no point has been configured.
         destPoint++;
 
         if (destPoint < points.Length)
@@ -139,19 +140,19 @@ public class animdoglocal : MonoBehaviour
         }
     }
 
-    //Getter per obtenir les vides de la IA.
+    // Getter to get the lives of the AI.
     public float getVides()
     {
         return vides;
     }
 
-    //Setter per assignar les vides de la IA.
+   // Setter to assign the lives of the AI.
     public void setVides(float i)
     {
         vides -= i * 20;       
     }
 
-    //Mètode per assignar les vides a la IA.
+  // Method to assign lives to the AI.
     public void respawn()
     {
         vides = 100;
